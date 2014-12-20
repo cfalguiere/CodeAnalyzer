@@ -1,0 +1,22 @@
+@startuml
+
+title "Code Analyzer"
+
+Main -> FileListLoader: load file list
+Main -> CodeAnalyzerController : invokeProcessor
+CodeAnalyzerController -> CompilerTask : create
+CodeAnalyzerController -> CompilerTask : add itself as a processor
+CodeAnalyzerController -> CompilerTask : call
+CompilerTask -> CodeAnalyzerProcessor : init
+CompilerTask -> CodeAnalyzerProcessor : process
+CodeAnalyzerProcessor -> CodeAnalyzerTreeVisitor : create
+loop each file
+CodeAnalyzerProcessor -> CodeAnalyzerTreeVisitor: scan 
+CodeAnalyzerProcessor -> ClassModelMap: add collected info
+CodeAnalyzerProcessor -> CodeAnalyzer: process
+CodeAnalyzer -> RuleEngine: create
+CodeAnalyzer -> RuleEngine: fireRules
+CodeAnalyzer -> RuleEngine: getProblemFound
+end
+
+@enduml
