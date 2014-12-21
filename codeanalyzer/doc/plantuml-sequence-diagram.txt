@@ -14,9 +14,11 @@ loop each file
 CodeAnalyzerProcessor -> CodeAnalyzerTreeVisitor: scan 
 CodeAnalyzerProcessor -> ClassModelMap: add collected info
 CodeAnalyzerProcessor -> CodeAnalyzer: process
-CodeAnalyzer -> RuleEngine: create
-CodeAnalyzer -> RuleEngine: fireRules
-CodeAnalyzer -> RuleEngine: getProblemFound
+CodeAnalyzer -> RuleEngine : create
+CodeAnalyzer -> RuleEngine : fireRules
+RuleEngine -> Rule : apply
+RuleEngine -> ViolationCollector : collect violation
 end
+CodeAnalyzer -> ViolationCollector: report
 
 @enduml

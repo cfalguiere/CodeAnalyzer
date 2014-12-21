@@ -3,6 +3,7 @@ package demo.codeanalyzer.common;
 import demo.codeanalyzer.processor.CodeAnalyzer;
 import demo.codeanalyzer.violations.ViolationCollector;
 
+/** This class acts as a simple CDI */
 public class AppContext {
 	private ViolationCollector vc;
 	private CodeAnalyzer ca;

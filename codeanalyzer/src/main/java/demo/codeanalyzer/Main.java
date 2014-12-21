@@ -13,7 +13,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		String basedir = "/Users/claude.falguiere/Documents/2014-12/CN-ClubMed-SOA/Export-Clubmed";
-		String listFilename = "imports.txt";
+		String listFilename = "../imports.txt";
 		
 		try {
 			AppContext context = new AppContext();
