@@ -3,10 +3,11 @@
 title "Code Analyzer"
 
 Main -> FileListLoader: load file list
-Main -> CodeAnalyzerController : invokeProcessor
-CodeAnalyzerController -> CompilerTask : create
-CodeAnalyzerController -> CompilerTask : add itself as a processor
-CodeAnalyzerController -> CompilerTask : call
+Main -> CodeAnalyzerApp : invokeProcesor
+CodeAnalyzerApp -> CompilerTask : create
+CodeAnalyzerApp -> CodeAnalyzerProcessor : create
+CodeAnalyzerApp -> CompilerTask : register processor
+CodeAnalyzerApp -> CompilerTask : call
 CompilerTask -> CodeAnalyzerProcessor : init
 CompilerTask -> CodeAnalyzerProcessor : process
 CodeAnalyzerProcessor -> CodeAnalyzerTreeVisitor : create

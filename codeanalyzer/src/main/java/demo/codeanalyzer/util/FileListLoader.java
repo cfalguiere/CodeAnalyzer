@@ -1,4 +1,4 @@
-package demo.codeanalyzer.input;
+package demo.codeanalyzer.util;
 
 import java.io.BufferedReader;
 import java.io.File;
