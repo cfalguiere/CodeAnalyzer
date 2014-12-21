@@ -1,0 +1,4 @@
+http://openjdk.java.net/groups/compiler/guide/compilerAPI.html
+
+https://today.java.net/pub/a/today/2008/04/10/source-code-analysis-using-java-6-compiler-apis.html
+code derived from the example provided in the post
