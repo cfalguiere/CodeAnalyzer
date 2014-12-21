@@ -12,6 +12,8 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
+import demo.codeanalyzer.common.AppContext;
+
 /**
  * The controller class to initiate verification of java files using custom
  * annotation processor. The files to be verified can be supplied to this class
@@ -23,6 +25,12 @@ import javax.tools.ToolProvider;
  */
 public class CodeAnalyzerController {
 
+	private AppContext context;
+	
+	public CodeAnalyzerController(AppContext aContext) {
+		context = aContext;
+	}
+	
 	/**
 	 * Invokes the annotation processor passing the list of file names
 	 * 
@@ -51,7 +59,7 @@ public class CodeAnalyzerController {
 			
 			// Get the list of annotation processors
 			LinkedList<AbstractProcessor> processors = new LinkedList<AbstractProcessor>();
-			processors.add(new CodeAnalyzerProcessor());
+			processors.add(new CodeAnalyzerProcessor(context));
 			task.setProcessors(processors);
 			
 			// Perform the compilation task.

@@ -2,7 +2,9 @@ package demo.codeanalyzer.processor;
 
 import java.util.Collection;
 
+import demo.codeanalyzer.common.AppContext;
 import demo.codeanalyzer.model.ErrorDescription;
+import demo.codeanalyzer.rules.RulesEngine;
 
 /**
  * This class starts the code analyzing process
@@ -10,30 +12,16 @@ import demo.codeanalyzer.model.ErrorDescription;
  */
 public class CodeAnalyzer {
 
-    private static CodeAnalyzer verifyWorker = new CodeAnalyzer();
-
-    private CodeAnalyzer() {
+	private AppContext context;
+ 
+    public CodeAnalyzer(AppContext aContext) {
+    	context = aContext;
     }
 
     public void process(String className) {
-        RulesEngine ruleEngine = new RulesEngine();
+        RulesEngine ruleEngine = new RulesEngine(context);
         ruleEngine.fireRules(className);
-        Collection<ErrorDescription> problems = ruleEngine.getProblemsFound();
-        if (problems != null) {
-            System.out.println("********** "+problems.size()+ " Problems Found **********");
-            for(ErrorDescription errorDetails : problems) {
-                String errorMessage = errorDetails.getErrorMessages();
-                System.out.format("Error Message: %s%n ", errorMessage);
-            }
-            System.out.println("******************************");
-        } else {
-            System.out.println("********** No Violations detected **********");
-        }
-        
-    }
-    
-        
-    public static CodeAnalyzer getInstance() {
-        return verifyWorker;
-    }
+        context.getViolationCollector().reportOntoConsole(System.out);
+    }  
+
 }

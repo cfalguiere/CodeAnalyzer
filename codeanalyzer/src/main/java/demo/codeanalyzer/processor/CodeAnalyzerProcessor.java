@@ -14,6 +14,7 @@ import javax.lang.model.element.TypeElement;
 import com.sun.source.util.TreePath;
 import com.sun.source.util.Trees;
 
+import demo.codeanalyzer.common.AppContext;
 import demo.codeanalyzer.model.ClassModelMap;
 import demo.codeanalyzer.model.JavaClassInfo;
 
@@ -30,7 +31,12 @@ import demo.codeanalyzer.model.JavaClassInfo;
 public class CodeAnalyzerProcessor extends AbstractProcessor {
 
     private Trees trees;
+    private AppContext context;
 
+    public CodeAnalyzerProcessor(AppContext aContext) {
+    	context = aContext;
+    }
+    
     @Override
     public void init(ProcessingEnvironment pe) {
         super.init(pe);
@@ -66,7 +72,7 @@ public class CodeAnalyzerProcessor extends AbstractProcessor {
             String className = typeElement.getQualifiedName().toString();
             JavaClassInfo clazzInfo = visitor.getClassInfo();
             ClassModelMap.getInstance().addClassInfo(className, clazzInfo);
-            CodeAnalyzer.getInstance().process(className);
+            context.getCodeAnalyzer().process(className);
         }
 
         return true;

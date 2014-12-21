@@ -3,6 +3,7 @@ package demo.codeanalyzer;
 
 import java.util.List;
 
+import demo.codeanalyzer.common.AppContext;
 import demo.codeanalyzer.input.FileListLoader;
 import demo.codeanalyzer.processor.CodeAnalyzerController;
 
@@ -15,13 +16,17 @@ public class Main {
 		String listFilename = "imports.txt";
 		
 		try {
+			AppContext context = new AppContext();
+			
+			
 			FileListLoader loader = new FileListLoader();
 			int max = 4;
 			List<String> filenames = loader.loadFilenames(basedir, listFilename, max);
 
 			System.out.format("Selected files %s%n", filenames);
 			
-			CodeAnalyzerController cac = new CodeAnalyzerController();
+			context.createCodeAnalyzer();
+			CodeAnalyzerController cac = new CodeAnalyzerController(context);
 			cac.invokeProcessor(filenames);
 
 		} catch (Exception e) {
