@@ -42,4 +42,19 @@ public class MethodKeyTest {
 		assertEquals("com.demo.Test1:Test1:process", methodKey1.toString());
 	}
 
+	@Test
+	public void compareWhenUndefinedMethod1() {
+		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "Test1", null);
+		MethodKey methodKey2 = new MethodKey("com.demo.Test1", "Test1", "process");
+		assertTrue(methodKey1.compareTo(methodKey2) < 0);
+	}
+
+	@Test
+	public void compareWhenUndefinedMethod2() {
+		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "Test1", "init");
+		MethodKey methodKey2 = new MethodKey("com.demo.Test1", "Test1", null);
+		assertTrue(methodKey1.compareTo(methodKey2) > 0);
+	}
+
+
 }

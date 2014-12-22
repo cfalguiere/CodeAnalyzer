@@ -1,28 +1,28 @@
 package demo.codeanalyzer.violations;
 
-/** 
+/**
  * This class responsibility is to identify a méthod
  */
 public class MethodKey implements Comparable {
-	
+
 	private String fileName;
 	private String className;
 	private String methodName;
-	
+
 	public MethodKey(String fileName, String className, String methodName) {
 		this.fileName = fileName;
 		this.className = className;
 		this.methodName = methodName;
 	}
-	
+
 	public String getFileName() {
 		return fileName;
 	}
-	
+
 	public String getClassName() {
 		return className;
 	}
-	
+
 	public String getMethodName() {
 		return methodName;
 	}
@@ -71,8 +71,17 @@ public class MethodKey implements Comparable {
 	public int compareTo(Object obj) {
 		MethodKey other = (MethodKey) obj;
 		int diff = fileName.compareTo(other.fileName);
-		if (diff == 0) diff = className.compareTo(other.className);
-		if (diff == 0) diff = methodName.compareTo(other.methodName);
+		if (diff == 0)
+			diff = className.compareTo(other.className);
+		if (diff == 0) {
+			if (methodName != null && other.methodName != null) {
+				diff = methodName.compareTo(other.methodName);
+			} else if (methodName != null) {
+				diff = methodName.length();
+			} else if (other.methodName != null) {
+				diff = -other.methodName.length();
+			}
+		}
 		return diff;
 	}
 
@@ -81,5 +90,4 @@ public class MethodKey implements Comparable {
 		return fileName + ":" + className + ":" + methodName;
 	}
 
-	
 }

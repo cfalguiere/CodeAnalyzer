@@ -103,14 +103,8 @@ public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
         FieldInfoDataSetter.populateFieldInfo(clazzInfo, variableTree, e, 
                                               path, trees);
 
-        if (variableTree.getType().toString().contains("Statement")) {
-            String classname = context.getNestedContext().getClassname();
-            String method = context.getNestedContext().getMethodname();
-            MethodKey key = new MethodKey(classname, method);
-            System.out.println("VARIABLE " + variableTree.getName() + " " + variableTree.getType());
-            ViolationInfo violation = new ViolationInfo(key, "variable's type contains Statement", variableTree.getName().toString() );
-            context.getViolationCollector().insert(violation);
-        }
+        context.getAlternateRulesEngine().fireRules(variableTree);
+        
         return super.visitVariable(variableTree, trees);
     }
 

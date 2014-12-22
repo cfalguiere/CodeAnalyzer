@@ -94,7 +94,11 @@ public class ViolationCollector {
 				writer.write(";");
 				writer.write(violation.getMethodKey().getClassName());
 				writer.write(";");
-				writer.write(violation.getMethodKey().getMethodName());
+				String methodName = violation.getMethodKey().getMethodName();
+				if (methodName == null) {
+					methodName = "-";
+				}
+				writer.write(methodName);
 				writer.write(";");
 				writer.write(violation.getViolation());
 				writer.newLine();

@@ -22,7 +22,7 @@ public class FileListLoader {
         Path path = Paths.get(listFilename);
         try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
             String line = null;
-            while ((line = reader.readLine()) != null && count<max)  {
+            while ((line = reader.readLine()) != null && (max==-1||count<max))  {
             	if (! line.contains("/test/")) {
                 	filenames.add(basedir + File.separator + line);
                 	count++;            		
