@@ -1,5 +1,6 @@
 package demo.codeanalyzer.rules;
 
+import com.sun.source.tree.AssignmentTree;
 import com.sun.source.tree.ExpressionStatementTree;
 import com.sun.source.tree.VariableTree;
 
@@ -19,6 +20,7 @@ public abstract class AbstractRule implements Rule {
 
 	public ViolationInfo apply(VariableTree variableTree, NestedContext aNestedContext) {return null;}
 	public ViolationInfo apply(ExpressionStatementTree expressionStatementTree, NestedContext aNestedContext) {return null;}
+	public ViolationInfo apply(AssignmentTree assignmentTree, NestedContext aNestedContext) {return null;}
 	
 	@Override
 	public final ViolationInfo execute(String element) {

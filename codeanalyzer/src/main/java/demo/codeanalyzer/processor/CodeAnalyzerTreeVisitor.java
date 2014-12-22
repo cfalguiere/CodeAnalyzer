@@ -119,7 +119,7 @@ public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
 	
 	@Override
 	public Object visitAssignment(AssignmentTree assignmentTree, Trees trees) {
-	    //System.out.println("ASSIGNMENT " + assignmentTree);
+	    context.getAlternateRulesEngine().fireRules(assignmentTree);
 		return super.visitAssignment(assignmentTree, trees);
 	}
 

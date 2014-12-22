@@ -52,6 +52,8 @@ public class CodeAnalyzerApp {
 			task.call();
 
 	        context.getViolationCollector().reportOntoConsole(System.out);
+	        
+	        context.getViolationCollector().reportOntoConsole(System.out);
 	        context.getViolationCollector().reportAsCSVWithAppName("export.csv");
 
 			try {
