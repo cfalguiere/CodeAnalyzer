@@ -158,6 +158,27 @@ public class ViolationCollectorTest {
 	}
 	
 	@Test
+	public void canReportCSVWhen2ViolationOnSameMethod() throws IOException {
+		ViolationCollector vc = new ViolationCollector();
+
+		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "Test1", "init");
+		String violation1 = "violation 1";
+		String statement1 = "CallableStatement statement";
+		ViolationInfo violationInfo1 = new ViolationInfo(methodKey1, violation1, statement1);
+		vc.insert(violationInfo1);
+		String violation2 = "violation 2";
+		String statement2 = "Connection connection";
+		ViolationInfo violationInfo2 = new ViolationInfo(methodKey1, violation2, statement2);
+		vc.insert(violationInfo2);
+
+		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
+		BufferedWriter writer = new BufferedWriter(new PrintWriter(outSpy));
+		vc.outputCSVLines(writer);
+		assertEquals("com.demo.Test1;Test1;init;violation 1, violation 2\n", outSpy.toString() );
+
+	}
+	
+	@Test
 	public void canReportCSVWhen1ViolationAndUndefinedMethod() throws IOException {
 		ViolationCollector vc = new ViolationCollector();
 

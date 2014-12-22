@@ -28,6 +28,7 @@ public class Main {
 			AlternateRulesEngine re = context.createAlternateRulesEngine();
 			re.addRule(new TypeShouldNotContainsRule("Statement"));
 			re.addRule(new TypeShouldNotContainsRule("Connection"));
+			re.addRule(new TypeShouldNotContainsRule("ResultSet"));
 			CodeAnalyzerApp cac = new CodeAnalyzerApp(context);
 			cac.invokeProcessor(filenames);
 

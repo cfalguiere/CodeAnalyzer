@@ -88,21 +88,23 @@ public class ViolationCollector {
 	}
 	
 	void outputCSVLines(BufferedWriter writer) throws IOException {
-		for (List<ViolationInfo> violations : violationsMap.values()) {
-			for (ViolationInfo violation : violations) {
-				writer.write(violation.getMethodKey().getFileName());
-				writer.write(";");
-				writer.write(violation.getMethodKey().getClassName());
-				writer.write(";");
-				String methodName = violation.getMethodKey().getMethodName();
-				if (methodName == null) {
-					methodName = "-";
-				}
-				writer.write(methodName);
-				writer.write(";");
-				writer.write(violation.getViolation());
-				writer.newLine();
+		for (SortedMap.Entry<MethodKey, List<ViolationInfo>> item : violationsMap.entrySet()) {
+			writer.write(item.getKey().getFileName());
+			writer.write(";");
+			writer.write(item.getKey().getClassName());
+			writer.write(";");
+			String methodName = item.getKey().getMethodName();
+			if (methodName == null) {
+				methodName = "-";
 			}
+			writer.write(methodName);
+			writer.write(";");
+			int count = 0;
+			for (ViolationInfo violation : item.getValue()) {
+				if (count++ > 0) writer.write(", ");
+				writer.write(violation.getViolation());
+			}
+			writer.newLine();
 		}
 		writer.flush();
 		writer.close();
