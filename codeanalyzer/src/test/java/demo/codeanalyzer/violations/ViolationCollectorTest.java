@@ -152,11 +152,45 @@ public class ViolationCollectorTest {
 
 		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
 		BufferedWriter writer = new BufferedWriter(new PrintWriter(outSpy));
-		vc.outputCSVLines(writer);
+		vc.outputCSVLines(writer, false);
 		assertEquals("com.demo.Test1;Test1;init;violation 1\n", outSpy.toString() );
 
 	}
 	
+	@Test
+	public void canReportCSVWhen1ViolationWithAppName() throws IOException {
+		ViolationCollector vc = new ViolationCollector();
+
+		MethodKey methodKey1 = new MethodKey("com.demo.app.Test1", "Test1", "init");
+		String violation1 = "violation 1";
+		String statement1 = "CallableStatement statement";
+		ViolationInfo violationInfo1 = new ViolationInfo(methodKey1, violation1, statement1);
+		vc.insert(violationInfo1);
+
+		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
+		BufferedWriter writer = new BufferedWriter(new PrintWriter(outSpy));
+		vc.outputCSVLines(writer, true);
+		assertEquals("app;com.demo.app.Test1;Test1;init;violation 1\n", outSpy.toString() );
+
+	}
+
+	@Test
+	public void canReportCSVWhen1ViolationWithAppNameNoCom() throws IOException {
+		ViolationCollector vc = new ViolationCollector();
+
+		MethodKey methodKey1 = new MethodKey("demo.app.Test1", "Test1", "init");
+		String violation1 = "violation 1";
+		String statement1 = "CallableStatement statement";
+		ViolationInfo violationInfo1 = new ViolationInfo(methodKey1, violation1, statement1);
+		vc.insert(violationInfo1);
+
+		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
+		BufferedWriter writer = new BufferedWriter(new PrintWriter(outSpy));
+		vc.outputCSVLines(writer, true);
+		assertEquals("app;demo.app.Test1;Test1;init;violation 1\n", outSpy.toString() );
+
+	}
+
 	@Test
 	public void canReportCSVWhen2ViolationOnSameMethod() throws IOException {
 		ViolationCollector vc = new ViolationCollector();
@@ -173,7 +207,7 @@ public class ViolationCollectorTest {
 
 		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
 		BufferedWriter writer = new BufferedWriter(new PrintWriter(outSpy));
-		vc.outputCSVLines(writer);
+		vc.outputCSVLines(writer, false);
 		assertEquals("com.demo.Test1;Test1;init;violation 1, violation 2\n", outSpy.toString() );
 
 	}
@@ -190,7 +224,7 @@ public class ViolationCollectorTest {
 
 		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
 		BufferedWriter writer = new BufferedWriter(new PrintWriter(outSpy));
-		vc.outputCSVLines(writer);
+		vc.outputCSVLines(writer, false);
 		assertEquals("com.demo.Test1;Test1;-;violation 1\n", outSpy.toString() );
 
 	}

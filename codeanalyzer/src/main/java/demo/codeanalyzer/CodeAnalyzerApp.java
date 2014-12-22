@@ -52,7 +52,7 @@ public class CodeAnalyzerApp {
 			task.call();
 
 	        context.getViolationCollector().reportOntoConsole(System.out);
-	        context.getViolationCollector().reportAsCSV("export.csv");
+	        context.getViolationCollector().reportAsCSVWithAppName("export.csv");
 
 			try {
 				fileManager.close();
