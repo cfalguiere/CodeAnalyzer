@@ -132,7 +132,7 @@ public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
 	@Override
 	public Object visitExpressionStatement(ExpressionStatementTree expressionStatementTree,
 			Trees trees) {
-	    //System.out.println("EXPRESSION STATEMENT " + expressionStatementTree);
+	    context.getAlternateRulesEngine().fireRules(expressionStatementTree);
 		return super.visitExpressionStatement(expressionStatementTree, trees);
 	}
 

@@ -136,6 +136,23 @@ public class ViolationCollectorTest {
 		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
 		PrintStream fakeConsole = new PrintStream(outSpy);
 		vc.reportOntoConsole(fakeConsole);
+		assertEquals("1 Violation(s) found\n", outSpy.toString() );
+
+	}
+	
+	@Test
+	public void canReport1ViolationFoundAndDetailsWhen1Violation() {
+		ViolationCollector vc = new ViolationCollector();
+
+		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "Test1", "init");
+		String violation1 = "violation 1";
+		String statement1 = "CallableStatement statement";
+		ViolationInfo violationInfo1 = new ViolationInfo(methodKey1, violation1, statement1);
+		vc.insert(violationInfo1);
+
+		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
+		PrintStream fakeConsole = new PrintStream(outSpy);
+		vc.reportOntoConsoleWithDetails(fakeConsole);
 		assertEquals("Violation on com.demo.Test1:Test1:init\n1 Violation(s) found\n", outSpy.toString() );
 
 	}

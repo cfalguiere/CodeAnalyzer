@@ -5,6 +5,7 @@ import java.util.List;
 
 import demo.codeanalyzer.common.AppContext;
 import demo.codeanalyzer.rules.AlternateRulesEngine;
+import demo.codeanalyzer.rules.ExpressionStatementShouldNotContainsRule;
 import demo.codeanalyzer.rules.TypeShouldNotContainsRule;
 import demo.codeanalyzer.util.FileListLoader;
 
@@ -14,7 +15,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		String basedir = "/Users/claude.falguiere/Documents/2014-12/CN-ClubMed-SOA/Export-Clubmed";
-		String listFilename = "../imports.txt";
+		String listFilename = "../imports2.txt";
 		int max = -1;
 		
 		try {
@@ -29,6 +30,17 @@ public class Main {
 			re.addRule(new TypeShouldNotContainsRule("Statement"));
 			re.addRule(new TypeShouldNotContainsRule("Connection"));
 			re.addRule(new TypeShouldNotContainsRule("ResultSet"));
+			re.addRule(new ExpressionStatementShouldNotContainsRule("checkConnection"));
+			re.addRule(new ExpressionStatementShouldNotContainsRule("safeClose"));
+			re.addRule(new ExpressionStatementShouldNotContainsRule("safeCommit"));
+			re.addRule(new ExpressionStatementShouldNotContainsRule("safeRollback"));
+			re.addRule(new ExpressionStatementShouldNotContainsRule("getConnection"));
+			re.addRule(new ExpressionStatementShouldNotContainsRule("getConnectionGenesys"));
+			re.addRule(new ExpressionStatementShouldNotContainsRule("getPoolConnection"));
+			re.addRule(new ExpressionStatementShouldNotContainsRule("prepareCall"));
+			re.addRule(new ExpressionStatementShouldNotContainsRule("prepareQuery"));
+			re.addRule(new ExpressionStatementShouldNotContainsRule("executeQuery"));
+			
 			CodeAnalyzerApp cac = new CodeAnalyzerApp(context);
 			cac.invokeProcessor(filenames);
 

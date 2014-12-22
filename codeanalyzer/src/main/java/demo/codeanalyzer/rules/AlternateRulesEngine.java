@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.sun.source.tree.ExpressionStatementTree;
 import com.sun.source.tree.VariableTree;
 
 import demo.codeanalyzer.common.AppContext;
@@ -37,6 +38,12 @@ public class AlternateRulesEngine {
 	public void fireRules(VariableTree variableTree) {
 		for (Rule rule : getRules()) {
 			context.getViolationCollector().collect(rule.apply(variableTree, context.getNestedContext()));
+		}
+	}
+
+	public void fireRules(ExpressionStatementTree expressionStatementTree) {
+		for (Rule rule : getRules()) {
+			context.getViolationCollector().collect(rule.apply(expressionStatementTree, context.getNestedContext()));
 		}
 	}
 

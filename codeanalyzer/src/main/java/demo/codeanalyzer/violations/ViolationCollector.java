@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public class ViolationCollector {
 
 	private SortedMap<MethodKey, List<ViolationInfo>> violationsMap;
-	
+
 	public ViolationCollector() {
 		violationsMap = new TreeMap<MethodKey, List<ViolationInfo>>();
 	}
@@ -60,12 +60,22 @@ public class ViolationCollector {
 	}
 
 	public void reportOntoConsole(PrintStream out) {
+		reportOntoConsole(out, false);
+	}
+
+	public void reportOntoConsoleWithDetails(PrintStream out) {
+		reportOntoConsole(out, true);
+	}
+
+	public void reportOntoConsole(PrintStream out, boolean withDetails) {
 		PrintWriter writer = new PrintWriter(new PrintStream(out));
 		if (getTotalViolationsCount() < 1) {
 			writer.println("No Violation detected");
 		} else {
-			for (MethodKey key : violationsMap.keySet()) {
-				writer.format("Violation on %s%n", key);
+			if (withDetails) {
+				for (MethodKey key : violationsMap.keySet()) {
+					writer.format("Violation on %s%n", key);
+				}
 			}
 			writer.format("%d Violation(s) found%n", getTotalViolationsCount());
 		}
@@ -74,37 +84,42 @@ public class ViolationCollector {
 	}
 
 	public void reportAsCSV(String aCsvFilename) {
-		reportAsCSV(aCsvFilename, false); 
+		reportAsCSV(aCsvFilename, false);
 	}
-	
+
 	public void reportAsCSVWithAppName(String aCsvFilename) {
-		reportAsCSV(aCsvFilename, true); 
+		reportAsCSV(aCsvFilename, true);
 	}
-	
+
 	public void reportAsCSV(String aCsvFilename, boolean withAppName) {
 		if (getTotalViolationsCount() < 1) {
 			System.out.println("No Violation to write out");
 			return;
 		}
-		
+
 		Path path = Paths.get(aCsvFilename);
 		try (BufferedWriter writer = Files.newBufferedWriter(path,
 				StandardCharsets.UTF_8)) {
 			outputCSVLines(writer, withAppName);
 			System.out.format("Violation written in file %s%n", aCsvFilename);
 		} catch (IOException e) {
-			System.err.format("Could not write csv file %s - Reason: %s %n", aCsvFilename, e.getMessage());
-		} 
+			System.err.format("Could not write csv file %s - Reason: %s %n",
+					aCsvFilename, e.getMessage());
+		}
 	}
-	
-	void outputCSVLines(BufferedWriter writer, boolean withAppName) throws IOException {
-		for (SortedMap.Entry<MethodKey, List<ViolationInfo>> item : violationsMap.entrySet()) {
+
+	void outputCSVLines(BufferedWriter writer, boolean withAppName)
+			throws IOException {
+		for (SortedMap.Entry<MethodKey, List<ViolationInfo>> item : violationsMap
+				.entrySet()) {
 			if (withAppName) {
 				String filename = item.getKey().getFileName();
 				String[] parts = filename.split("[.]");
 				String appName = null;
-				if (parts[0].equals("com")) appName = parts[2];
-				else appName = parts[1];
+				if (parts[0].equals("com"))
+					appName = parts[2];
+				else
+					appName = parts[1];
 				writer.write(appName);
 				writer.write(";");
 			}
@@ -120,7 +135,8 @@ public class ViolationCollector {
 			writer.write(";");
 			int count = 0;
 			for (ViolationInfo violation : item.getValue()) {
-				if (count++ > 0) writer.write(", ");
+				if (count++ > 0)
+					writer.write(", ");
 				writer.write(violation.getViolation());
 			}
 			writer.newLine();
@@ -128,5 +144,5 @@ public class ViolationCollector {
 		writer.flush();
 		writer.close();
 	}
-	
+
 }
