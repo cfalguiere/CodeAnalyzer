@@ -2,8 +2,11 @@ package demo.codeanalyzer.violations;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.ListIterator;
 
@@ -111,7 +114,7 @@ public class ViolationCollectorTest {
 	}
 	
 	@Test
-	public void ReportNoViolationDetectedWhen0Violation() {
+	public void canReportNoViolationDetectedWhen0Violation() {
 		ViolationCollector vc = new ViolationCollector();
 
 		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
@@ -121,7 +124,7 @@ public class ViolationCollectorTest {
 	}
 	
 	@Test
-	public void Report1ViolationFoundWhen1Violation() {
+	public void canReport1ViolationFoundWhen1Violation() {
 		ViolationCollector vc = new ViolationCollector();
 
 		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "init");
@@ -131,9 +134,26 @@ public class ViolationCollectorTest {
 		vc.insert(violationInfo1);
 
 		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
-		PrintStream console = new PrintStream(outSpy);
-		vc.reportOntoConsole(console);
+		PrintStream fakeConsole = new PrintStream(outSpy);
+		vc.reportOntoConsole(fakeConsole);
 		assertEquals("Violation on com.demo.Test1:init\n1 Violation(s) found\n", outSpy.toString() );
+
+	}
+	
+	@Test
+	public void canReportCSVWhen1Violation() throws IOException {
+		ViolationCollector vc = new ViolationCollector();
+
+		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "init");
+		String violation1 = "violation 1";
+		String statement1 = "CallableStatement statement";
+		ViolationInfo violationInfo1 = new ViolationInfo(methodKey1, violation1, statement1);
+		vc.insert(violationInfo1);
+
+		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
+		BufferedWriter writer = new BufferedWriter(new PrintWriter(outSpy));
+		vc.outputCSVLines(writer);
+		assertEquals("com.demo.Test1;init;violation 1", outSpy.toString() );
 
 	}
 }

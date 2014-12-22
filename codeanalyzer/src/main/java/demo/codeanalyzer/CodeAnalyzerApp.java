@@ -50,7 +50,10 @@ public class CodeAnalyzerApp {
 			task.setProcessors(processors);
 			
 			task.call();
-			
+
+	        context.getViolationCollector().reportOntoConsole(System.out);
+	        context.getViolationCollector().reportAsCSV("export.csv");
+
 			try {
 				fileManager.close();
 			} catch (IOException e) {

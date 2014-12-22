@@ -20,6 +20,6 @@ CodeAnalyzer -> RuleEngine : fireRules
 RuleEngine -> Rule : apply
 RuleEngine -> ViolationCollector : collect violation
 end
-CodeAnalyzer -> ViolationCollector: report
+CodeAnalyzerApp -> ViolationCollector: report
 
 @enduml

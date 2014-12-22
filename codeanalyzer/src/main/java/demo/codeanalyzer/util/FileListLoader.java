@@ -36,4 +36,11 @@ public class FileListLoader {
         
         return filenames;
     }
+    /* TODO
+    try (Scanner scanner =  new Scanner(path, StandardCharsets.UTF_8.name())){
+        while (scanner.hasNextLine()){
+          //process each line in some way
+          log(scanner.nextLine());
+        }      
+      }*/
 }
