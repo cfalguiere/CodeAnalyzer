@@ -15,10 +15,13 @@ import com.sun.source.util.TreePath;
 import com.sun.source.util.TreePathScanner;
 import com.sun.source.util.Trees;
 
+import demo.codeanalyzer.common.AppContext;
 import demo.codeanalyzer.helper.ClassInfoDataSetter;
 import demo.codeanalyzer.helper.FieldInfoDataSetter;
 import demo.codeanalyzer.helper.MethodInfoDataSetter;
 import demo.codeanalyzer.model.JavaClassInfo;
+import demo.codeanalyzer.violations.MethodKey;
+import demo.codeanalyzer.violations.ViolationInfo;
 
 /**
  * Visitor class which visits different nodes of the input source file, 
@@ -30,6 +33,12 @@ import demo.codeanalyzer.model.JavaClassInfo;
  */
 public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
 
+	private AppContext context;
+	
+	public CodeAnalyzerTreeVisitor(AppContext aContext) {
+		context = aContext;
+	}
+	
     //Model class stores the details of the visiting class
     JavaClassInfo clazzInfo = new JavaClassInfo();
 
@@ -47,6 +56,7 @@ public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
             //populate required class information to model
             ClassInfoDataSetter.populateClassInfo(clazzInfo, classTree, 
                         path, trees);
+            context.getNestedContext().trackClassname(classTree.getSimpleName().toString());
             System.out.println("CLASS " + classTree.getSimpleName() + " " + classTree.getKind());
             
     	} catch (Exception e) {
@@ -70,6 +80,7 @@ public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
 	        MethodInfoDataSetter.populateMethodInfo(clazzInfo, methodTree, 
 	                                                path, trees);
 	        
+            context.getNestedContext().trackMethodname(methodTree.getName().toString());
 	        System.out.println("METHOD " + methodTree.getName() );
 	    } catch (Exception e) {
             System.err.println("Could not visit method");    		
@@ -91,8 +102,15 @@ public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
         //populate required method information to model
         FieldInfoDataSetter.populateFieldInfo(clazzInfo, variableTree, e, 
                                               path, trees);
-        System.out.println("VARIABLE " + variableTree.getName() + " " + variableTree.getType());
 
+        if (variableTree.getType().toString().contains("Statement")) {
+            String classname = context.getNestedContext().getClassname();
+            String method = context.getNestedContext().getMethodname();
+            MethodKey key = new MethodKey(classname, method);
+            System.out.println("VARIABLE " + variableTree.getName() + " " + variableTree.getType());
+            ViolationInfo violation = new ViolationInfo(key, "variable's type contains Statement", variableTree.getName().toString() );
+            context.getViolationCollector().insert(violation);
+        }
         return super.visitVariable(variableTree, trees);
     }
 
@@ -100,14 +118,14 @@ public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
 
 	@Override
 	public Object visitImport(ImportTree importTree, Trees trees) {        
-        System.out.println("IMPORT " + importTree);
+        //System.out.println("IMPORT " + importTree);
  		return super.visitImport(importTree, trees);
 	}
 
 	
 	@Override
 	public Object visitAssignment(AssignmentTree assignmentTree, Trees trees) {
-	    System.out.println("ASSIGNMENT " + assignmentTree);
+	    //System.out.println("ASSIGNMENT " + assignmentTree);
 		return super.visitAssignment(assignmentTree, trees);
 	}
 
@@ -120,19 +138,19 @@ public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees> {
 	@Override
 	public Object visitExpressionStatement(ExpressionStatementTree expressionStatementTree,
 			Trees trees) {
-	    System.out.println("EXPRESSION STATEMENT " + expressionStatementTree);
+	    //System.out.println("EXPRESSION STATEMENT " + expressionStatementTree);
 		return super.visitExpressionStatement(expressionStatementTree, trees);
 	}
 
 	@Override
 	public Object visitLabeledStatement(LabeledStatementTree labeledStatementTree, Trees trees) {
-	    System.out.println("LABELED STATEMENT " + labeledStatementTree);
+	    //System.out.println("LABELED STATEMENT " + labeledStatementTree);
 		return super.visitLabeledStatement(labeledStatementTree, trees);
 	}
 
 	@Override
 	public Object visitOther(Tree tree, Trees trees) {
-	    System.out.println("OTHER " + tree);
+	    //System.out.println("OTHER " + tree);
 		return super.visitOther(tree, trees);
 	}
 

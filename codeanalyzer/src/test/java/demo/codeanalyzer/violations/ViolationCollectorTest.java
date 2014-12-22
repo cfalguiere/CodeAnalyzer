@@ -22,7 +22,7 @@ public class ViolationCollectorTest {
 	@Test
 	public void canInsertAViolation() {
 		ViolationCollector vc = new ViolationCollector();
-		MethodKey methodKey = new MethodKey("com.demo.Test1", "init");
+		MethodKey methodKey = new MethodKey("com.demo.Test1", "Test1", "init");
 		String violation = "violation 1";
 		String statement = "CallableStatement statement";
 		ViolationInfo violationInfo = new ViolationInfo(methodKey, violation, statement);
@@ -38,7 +38,7 @@ public class ViolationCollectorTest {
 	@Test
 	public void canAddAnotherViolationToTheMethod() {
 		ViolationCollector vc = new ViolationCollector();
-		MethodKey methodKey = new MethodKey("com.demo.Test1", "init");
+		MethodKey methodKey = new MethodKey("com.demo.Test1", "Test1",  "init");
 
 		String violation1 = "violation 1";
 		String statement1 = "CallableStatement statement";
@@ -65,14 +65,14 @@ public class ViolationCollectorTest {
 	@Test
 	public void canAddViolationsWhenTwoMethods() {
 		ViolationCollector vc = new ViolationCollector();
-		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "init");
+		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "Test1", "init");
 
 		String violation1 = "violation 1";
 		String statement1 = "CallableStatement statement";
 		ViolationInfo violationInfo1 = new ViolationInfo(methodKey1, violation1, statement1);
 		vc.insert(violationInfo1);
 
-		MethodKey methodKey2 = new MethodKey("com.demo.Test1", "process");
+		MethodKey methodKey2 = new MethodKey("com.demo.Test1", "Test1", "process");
 
 		String violation2 = "violation 2";
 		String statement2 = "CallableStatement statement";
@@ -98,13 +98,13 @@ public class ViolationCollectorTest {
 	public void totalNumberOfViolationIsTheSumOfMethodViolationsWhenTwoMethods() {
 		ViolationCollector vc = new ViolationCollector();
 
-		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "init");
+		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "Test1", "init");
 		String violation1 = "violation 1";
 		String statement1 = "CallableStatement statement";
 		ViolationInfo violationInfo1 = new ViolationInfo(methodKey1, violation1, statement1);
 		vc.insert(violationInfo1);
 		
-		MethodKey methodKey2 = new MethodKey("com.demo.Test1", "process");
+		MethodKey methodKey2 = new MethodKey("com.demo.Test1", "Test1", "process");
 		String violation2 = "violation 1";
 		String statement2 = "CallableStatement statement";
 		ViolationInfo violationInfo2 = new ViolationInfo(methodKey2, violation2, statement2);
@@ -127,7 +127,7 @@ public class ViolationCollectorTest {
 	public void canReport1ViolationFoundWhen1Violation() {
 		ViolationCollector vc = new ViolationCollector();
 
-		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "init");
+		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "Test1", "init");
 		String violation1 = "violation 1";
 		String statement1 = "CallableStatement statement";
 		ViolationInfo violationInfo1 = new ViolationInfo(methodKey1, violation1, statement1);
@@ -136,7 +136,7 @@ public class ViolationCollectorTest {
 		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
 		PrintStream fakeConsole = new PrintStream(outSpy);
 		vc.reportOntoConsole(fakeConsole);
-		assertEquals("Violation on com.demo.Test1:init\n1 Violation(s) found\n", outSpy.toString() );
+		assertEquals("Violation on com.demo.Test1:Test1:init\n1 Violation(s) found\n", outSpy.toString() );
 
 	}
 	
@@ -144,7 +144,7 @@ public class ViolationCollectorTest {
 	public void canReportCSVWhen1Violation() throws IOException {
 		ViolationCollector vc = new ViolationCollector();
 
-		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "init");
+		MethodKey methodKey1 = new MethodKey("com.demo.Test1", "Test1", "init");
 		String violation1 = "violation 1";
 		String statement1 = "CallableStatement statement";
 		ViolationInfo violationInfo1 = new ViolationInfo(methodKey1, violation1, statement1);
@@ -153,7 +153,7 @@ public class ViolationCollectorTest {
 		ByteArrayOutputStream outSpy = new ByteArrayOutputStream();
 		BufferedWriter writer = new BufferedWriter(new PrintWriter(outSpy));
 		vc.outputCSVLines(writer);
-		assertEquals("com.demo.Test1;init;violation 1", outSpy.toString() );
+		assertEquals("com.demo.Test1;Test1;init;violation 1\n", outSpy.toString() );
 
 	}
 }

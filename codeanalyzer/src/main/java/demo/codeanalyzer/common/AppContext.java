@@ -7,15 +7,21 @@ import demo.codeanalyzer.violations.ViolationCollector;
 public class AppContext {
 	private ViolationCollector vc;
 	private CodeAnalyzer ca;
+	private NestedContext nc;
 
 	public AppContext() {
 		vc = new ViolationCollector();
+		nc = new NestedContext();
 	}
 
 	public ViolationCollector getViolationCollector() {
 		return vc;
 	}
 
+	public NestedContext getNestedContext() {
+		return nc;
+	}
+	
 	public CodeAnalyzer createCodeAnalyzer() {
 		ca = new CodeAnalyzer(this);
 		return ca;

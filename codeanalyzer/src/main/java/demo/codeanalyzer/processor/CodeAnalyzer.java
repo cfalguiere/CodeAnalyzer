@@ -21,7 +21,6 @@ public class CodeAnalyzer {
     public void process(String className) {
         RulesEngine ruleEngine = new RulesEngine(context);
         ruleEngine.fireRules(className);
-        context.getViolationCollector().reportOntoConsole(System.out);
     }  
 
 }

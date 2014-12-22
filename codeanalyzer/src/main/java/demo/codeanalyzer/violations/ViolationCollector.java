@@ -90,8 +90,12 @@ public class ViolationCollector {
 	void outputCSVLines(BufferedWriter writer) throws IOException {
 		for (List<ViolationInfo> violations : violationsMap.values()) {
 			for (ViolationInfo violation : violations) {
+				writer.write(violation.getMethodKey().getFileName());
+				writer.write(";");
 				writer.write(violation.getMethodKey().getClassName());
+				writer.write(";");
 				writer.write(violation.getMethodKey().getMethodName());
+				writer.write(";");
 				writer.write(violation.getViolation());
 				writer.newLine();
 			}

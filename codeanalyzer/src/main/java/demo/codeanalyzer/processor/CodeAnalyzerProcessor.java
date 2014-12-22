@@ -59,13 +59,14 @@ public class CodeAnalyzerProcessor extends AbstractProcessor {
             RoundEnvironment roundEnvironment) {
 
         // Scanner class to scan through various component elements
-        CodeAnalyzerTreeVisitor visitor = new CodeAnalyzerTreeVisitor();
+        CodeAnalyzerTreeVisitor visitor = new CodeAnalyzerTreeVisitor(context);
 
         for (Element e : roundEnvironment.getRootElements()) {
             TreePath tp = trees.getPath(e);
 
             // invoke the scanner
             TypeElement typeElement = (TypeElement) e;
+            context.getNestedContext().trackFilename(typeElement.getQualifiedName().toString());
             System.out.println("FILE " + typeElement.getQualifiedName());
             
             visitor.scan(tp, trees);
