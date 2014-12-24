@@ -20,8 +20,6 @@ import demo.codeanalyzer.helper.ClassInfoDataSetter;
 import demo.codeanalyzer.helper.FieldInfoDataSetter;
 import demo.codeanalyzer.helper.MethodInfoDataSetter;
 import demo.codeanalyzer.model.JavaClassInfo;
-import demo.codeanalyzer.violations.MethodKey;
-import demo.codeanalyzer.violations.ViolationInfo;
 
 /**
  * Visitor class which visits different nodes of the input source file, 

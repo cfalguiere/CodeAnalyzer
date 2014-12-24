@@ -1,21 +1,17 @@
 package demo.codeanalyzer.violations;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.util.Collection;
 import java.util.ListIterator;
 
 import org.junit.Test;
-
-import demo.codeanalyzer.model.ErrorDescription;
-import demo.codeanalyzer.violations.MethodKey;
-import demo.codeanalyzer.violations.ViolationCollector;
-import demo.codeanalyzer.violations.ViolationInfo;
 
 public class ViolationCollectorTest {
 

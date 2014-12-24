@@ -1,21 +1,22 @@
 package demo.codeanalyzer;
 
 
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.List;
 
 import demo.codeanalyzer.common.AppContext;
 import demo.codeanalyzer.rules.AlternateRulesEngine;
 import demo.codeanalyzer.rules.ExpressionStatementShouldNotContainsRule;
+import demo.codeanalyzer.rules.ShouldNotAssignVariableRule;
 import demo.codeanalyzer.rules.TypeShouldNotContainsRule;
 import demo.codeanalyzer.rules.VariableNameShouldNotBeRule;
 import demo.codeanalyzer.rules.VariableNameShouldNotStartWithRule;
 import demo.codeanalyzer.util.FileListLoader;
 
-
+//TODO csv and console are not sorted the same way
+//TODO detect private
+//TODO avoid merge when overloading
+//TODO detect blocs
+//TODO count references
 public class Main {
 
 	public static void main(String[] args) {
@@ -56,6 +57,8 @@ public class Main {
 			re.addRule(new ExpressionStatementShouldNotContainsRule("executeSql")); //BV
 
 			re.addRule(new VariableNameShouldNotBeRule("sql"));
+			re.addRule(new VariableNameShouldNotBeRule("sqlAppel"));
+			re.addRule(new VariableNameShouldNotBeRule("requete"));
 			re.addRule(new VariableNameShouldNotBeRule("ps"));
 			re.addRule(new VariableNameShouldNotBeRule("stmt"));
 			re.addRule(new VariableNameShouldNotStartWithRule("PROC_"));
@@ -64,7 +67,13 @@ public class Main {
 			re.addRule(new VariableNameShouldNotStartWithRule("UPDATE_"));
 			re.addRule(new VariableNameShouldNotStartWithRule("DELETE_"));
 			re.addRule(new VariableNameShouldNotStartWithRule("SQL_"));
-			
+
+			re.addRule(new ShouldNotAssignVariableRule("sql"));
+			re.addRule(new ShouldNotAssignVariableRule("sqlAppel"));
+			re.addRule(new ShouldNotAssignVariableRule("requete"));
+			re.addRule(new ShouldNotAssignVariableRule("ps"));
+			re.addRule(new ShouldNotAssignVariableRule("stmt"));
+
 			CodeAnalyzerApp cac = new CodeAnalyzerApp(context);
 			cac.invokeProcessor(filenames);
 

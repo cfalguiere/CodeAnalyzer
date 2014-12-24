@@ -1,14 +1,11 @@
 package demo.codeanalyzer.rules;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import demo.codeanalyzer.common.AppContext;
 import demo.codeanalyzer.model.ClassFile;
 import demo.codeanalyzer.model.ClassModelMap;
-import demo.codeanalyzer.model.ErrorDescription;
 
 /**
  * This class responsibility is to list the rules, apply the rules to the submitted classes, and collect violations 

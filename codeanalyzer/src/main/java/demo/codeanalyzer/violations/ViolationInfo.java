@@ -1,9 +1,5 @@
 package demo.codeanalyzer.violations;
 
-import java.util.List;
-
-import demo.codeanalyzer.model.ClassFile;
-import demo.codeanalyzer.model.MethodInfo;
 
 /** 
  * This class responsibility is to hold violation informations

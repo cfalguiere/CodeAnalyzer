@@ -1,7 +1,6 @@
 package demo.codeanalyzer.rules;
 
 import com.sun.source.tree.ExpressionStatementTree;
-import com.sun.source.tree.VariableTree;
 
 import demo.codeanalyzer.common.NestedContext;
 import demo.codeanalyzer.violations.MethodKey;

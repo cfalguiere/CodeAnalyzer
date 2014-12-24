@@ -1,6 +1,5 @@
 package demo.codeanalyzer.common;
 
-import java.util.Stack;
 
 public class NestedContext {
 

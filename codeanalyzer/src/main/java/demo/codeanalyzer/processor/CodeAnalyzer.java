@@ -1,9 +1,6 @@
 package demo.codeanalyzer.processor;
 
-import java.util.Collection;
-
 import demo.codeanalyzer.common.AppContext;
-import demo.codeanalyzer.model.ErrorDescription;
 import demo.codeanalyzer.rules.RulesEngine;
 
 /**
